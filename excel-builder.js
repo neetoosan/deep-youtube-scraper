@@ -117,6 +117,7 @@ function colName(n) {
 
 function escapeXml(s) {
   return String(s)
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
@@ -125,6 +126,9 @@ function escapeXml(s) {
 }
 
 function xmlBytes(str) {
+  if (typeof TextEncoder !== "undefined") {
+    return new TextEncoder().encode(str);
+  }
   var arr = [];
   for (var i = 0; i < str.length; i++) {
     var code = str.charCodeAt(i);
