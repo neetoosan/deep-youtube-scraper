@@ -72,6 +72,23 @@ The scraper uses Google's official YouTube Data API v3 (which offers **10,000 fr
 
 ### How to save it in the extension:
 1. Click the **YouTube Contact Scraper** icon in your toolbar to open the popup.
+
+### NOTE: 
+Type **`YouTube Data API v3`** in that search box where it says **"Type to filter"**.
+
+---
+
+### 📍 Here is what to do:
+
+1. Click on the text box that says **Type to filter**.
+2. Type **`YouTube Data API v3`**.
+3. Check the box next to **YouTube Data API v3** when it appears.
+4. Click **OK**.
+
+---
+
+*(If it doesn't show up when you type it, click **Cancel**, go to the **API Library** on the left menu, search for **YouTube Data API v3**, and click **Enable** first!)*
+
 2. Paste your key into the **API Key** box at the top.
 3. Click **Save Key**. (You only need to do this once — it stays saved!).
 
