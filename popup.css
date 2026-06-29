@@ -1,0 +1,343 @@
+:root {
+  color-scheme: light;
+  --bg: #f9f6f1;
+  --panel: #fffcf7;
+  --ink: #1a1816;
+  --muted: #6b6560;
+  --accent: #cc0000;
+  --accent-hover: #a80000;
+  --accent-soft: #fee8e8;
+  --line: #e3ddd4;
+  --success: #1a8f3c;
+  --warning: #c97800;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 440px;
+  background:
+    radial-gradient(circle at top right, rgba(204, 0, 0, 0.08), transparent 40%),
+    linear-gradient(180deg, #fef9f2 0%, var(--bg) 100%);
+  color: var(--ink);
+  font: 14px/1.45 "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.app {
+  padding: 16px;
+}
+
+/* ── Header ─── */
+
+.hero {
+  margin-bottom: 14px;
+}
+
+.eyebrow {
+  margin: 0 0 4px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+h1, h2 {
+  margin: 0;
+}
+
+h1 {
+  font-size: 22px;
+}
+
+.subtitle {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+/* ── API Key Panel ─── */
+
+.config-panel {
+  background: #fef4f0;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+  border: 1px solid #f0d8cc;
+}
+
+.config-panel h3 {
+  margin: 0 0 6px 0;
+  font-size: 16px;
+}
+
+.config-panel .help-text {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.config-panel .help-text a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.config-panel .help-text a:hover {
+  text-decoration: underline;
+}
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.form-group input[type="password"],
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  font-family: inherit;
+  font-size: 13px;
+  background: #fff;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(204, 0, 0, 0.12);
+}
+
+.form-group.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-group.checkbox label {
+  margin-bottom: 0;
+  font-weight: normal;
+}
+
+.panel-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.panel-actions button {
+  flex: 1;
+}
+
+.key-status {
+  margin: 8px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.key-status.saved {
+  color: var(--success);
+}
+
+.key-status.error {
+  color: var(--accent);
+}
+
+/* ── Mode Bar ─── */
+
+.mode-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fef2ed;
+  border: 1px solid #f0d4c6;
+  border-radius: 12px;
+  padding: 8px 12px;
+  margin-bottom: 14px;
+}
+
+.mode-bar label {
+  font-size: 13px;
+  color: var(--accent-hover);
+}
+
+.mode-select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #e0b8a8;
+  background: #fff;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+/* ── Controls ─── */
+
+.controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+button {
+  border: 0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 700;
+  font-family: inherit;
+  font-size: 13px;
+  transition: background 0.15s ease;
+}
+
+button:hover {
+  background: var(--accent-hover);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+button.secondary {
+  background: var(--accent-soft);
+  color: var(--accent-hover);
+}
+
+button.secondary:hover {
+  background: #fdd4d4;
+}
+
+button.danger {
+  background: #333;
+  color: #fff;
+}
+
+button.danger:hover {
+  background: #555;
+}
+
+@media (max-width: 460px) {
+  .controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Progress ─── */
+
+.progress-container {
+  margin-bottom: 14px;
+}
+
+.progress-container.hidden {
+  display: none;
+}
+
+.progress-track {
+  width: 100%;
+  height: 8px;
+  background: #ede5da;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #cc0000, #ff4444, #cc0000);
+  background-size: 200% 100%;
+  border-radius: 8px;
+  transition: width 0.3s ease;
+  animation: progressShimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes progressShimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.progress-label {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ── Status ─── */
+
+.status {
+  margin-bottom: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 252, 247, 0.88);
+  padding: 10px 12px;
+  font-size: 13px;
+}
+
+/* ── Results ─── */
+
+.results {
+  display: grid;
+  gap: 12px;
+}
+
+.result-block {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--panel);
+  padding: 12px;
+  box-shadow: 0 10px 22px rgba(31, 24, 13, 0.06);
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 12px 0 0;
+}
+
+.summary div {
+  border-radius: 12px;
+  background: #f8eedf;
+  padding: 10px;
+}
+
+.summary dt {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.summary dd {
+  margin: 2px 0 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+textarea {
+  width: 100%;
+  min-height: 220px;
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+  resize: vertical;
+  background: #fffdf8;
+  color: var(--ink);
+  font: 12px/1.4 Consolas, "Courier New", monospace;
+}

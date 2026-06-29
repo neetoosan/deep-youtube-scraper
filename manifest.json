@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Contact Scraper",
+  "version": "1.0.0",
+  "description": "Extract public emails, social handles, and contact information from YouTube video comments, channel pages, and community posts using the YouTube Data API v3.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "tabs",
+    "storage"
+  ],
+  "host_permissions": [
+    "*://*.youtube.com/*",
+    "*://*.googleapis.com/*"
+  ],
+  "action": {
+    "default_title": "YouTube Contact Scraper",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["excel-builder.js", "scraper.js"]
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

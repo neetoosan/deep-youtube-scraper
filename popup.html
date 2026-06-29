@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>YouTube Contact Scraper</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main class="app">
+      <header class="hero">
+        <p class="eyebrow">YouTube Data API v3</p>
+        <h1>YouTube Contact Scraper</h1>
+        <p class="subtitle">Extract emails &amp; contacts from comments, channels, and community posts.</p>
+      </header>
+
+      <!-- API Key Setup -->
+      <section id="apiKeyPanel" class="config-panel">
+        <h3>🔑 API Key Required</h3>
+        <p class="help-text">Enter your YouTube Data API v3 key from the <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Google Cloud Console</a>.</p>
+        <div class="form-group">
+          <label for="apiKeyInput">API Key:</label>
+          <input type="password" id="apiKeyInput" placeholder="AIza..." autocomplete="off">
+        </div>
+        <div class="panel-actions">
+          <button id="saveApiKeyBtn" type="button">Save Key</button>
+          <button id="clearApiKeyBtn" type="button" class="secondary">Clear</button>
+        </div>
+        <p id="apiKeyStatus" class="key-status"></p>
+      </section>
+
+      <!-- Scrape Mode Selector -->
+      <section class="mode-bar">
+        <label for="scrapeMode"><strong>Scrape Mode:</strong></label>
+        <select id="scrapeMode" class="mode-select">
+          <option value="comments">💬 Video Comments</option>
+          <option value="channel">📺 Channel Info</option>
+          <option value="search">🔍 Search Results</option>
+        </select>
+      </section>
+
+      <!-- Scrape Options -->
+      <section id="scrapeOptions" class="config-panel">
+        <div class="form-group">
+          <label for="maxComments">Max Comments to Scan:</label>
+          <input type="number" id="maxComments" value="200" min="1" max="5000">
+        </div>
+        <div class="form-group" id="searchQueryGroup" style="display:none;">
+          <label for="searchQuery">Search Query:</label>
+          <input type="text" id="searchQuery" placeholder="e.g. web development freelancers">
+        </div>
+        <div class="form-group checkbox">
+          <input type="checkbox" id="includeReplies" checked>
+          <label for="includeReplies">Include comment replies</label>
+        </div>
+      </section>
+
+      <!-- Controls -->
+      <section class="controls">
+        <button id="scrapeButton" type="button">Start Scraping</button>
+        <button id="stopButton" type="button" class="danger" disabled>Stop</button>
+        <button id="copyButton" type="button" class="secondary" disabled>Copy JSON</button>
+        <button id="exportButton" type="button" class="secondary" disabled>Export XLSX</button>
+      </section>
+
+      <!-- Progress -->
+      <section id="progressBar" class="progress-container hidden">
+        <div class="progress-track">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+        <p id="progressLabel" class="progress-label">Initializing...</p>
+      </section>
+
+      <!-- Status -->
+      <section class="status" id="status">Ready. Enter your API key to get started.</section>
+
+      <!-- Results -->
+      <section class="results">
+        <div class="result-block">
+          <h2>Summary</h2>
+          <dl id="summary" class="summary">
+            <div><dt>Commenters</dt><dd>0</dd></div>
+            <div><dt>Emails</dt><dd>0</dd></div>
+            <div><dt>Channels</dt><dd>0</dd></div>
+            <div><dt>Socials</dt><dd>0</dd></div>
+            <div><dt>Websites</dt><dd>0</dd></div>
+            <div><dt>Unique</dt><dd>0</dd></div>
+          </dl>
+        </div>
+
+        <div class="result-block">
+          <h2>Extracted Data</h2>
+          <textarea id="output" spellcheck="false" readonly></textarea>
+        </div>
+      </section>
+    </main>
+    <script src="excel-builder.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
