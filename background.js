@@ -1,6 +1,5 @@
 /**
  * YouTube Contact Scraper — Background Service Worker
- *
  * Handles YouTube Data API v3 communication:
  *   - Fetching video comments (commentThreads.list)
  *   - Fetching channel "About" info (channels.list)
