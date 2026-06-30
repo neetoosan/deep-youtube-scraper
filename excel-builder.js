@@ -50,22 +50,23 @@ function buildYouTubeWorkbook(results) {
 
 function buildYouTubeRows(results) {
   var header = [
-    "Channel Name", "Channel URL", "Email(s)", "Social Handle(s)",
-    "Website", "Subscribers", "Comment Snippet"
+    "Channel", "Email(s)", "Socials", "Website", "Subscribers"
   ];
   var rows = [header];
 
   var contacts = results.contacts || [];
   for (var i = 0; i < contacts.length; i++) {
     var c = contacts[i];
+    // Double quotes inside string arguments of Excel formulas are escaped as double-double quotes ("")
+    var cleanTitle = (c.channelTitle || "").replace(/"/g, '""');
+    var channelCell = c.channelUrl ? `=HYPERLINK("${c.channelUrl}", "${cleanTitle}")` : (c.channelTitle || "");
+
     rows.push([
-      c.channelTitle || "",
-      c.channelUrl || "",
+      channelCell,
       (c.emails || []).join(", "),
       (c.socials || []).join(", "),
       c.website || "",
-      c.subscriberCount || "",
-      c.commentText || ""
+      c.subscriberCount || ""
     ]);
   }
 
@@ -79,9 +80,24 @@ function buildSheetXml(rows) {
   var cols = rows[0] ? rows[0].length : 0;
   var endCol = colName(cols);
 
+  // Define column widths for beautiful layout:
+  // Column 1 (Channel): 30
+  // Column 2 (Emails): 35
+  // Column 3 (Socials): 30
+  // Column 4 (Website): 30
+  // Column 5 (Subscribers): 18
+  var colWidths = [30, 35, 30, 30, 18];
+  var colXml = '<cols>';
+  for (var i = 0; i < cols; i++) {
+    var w = colWidths[i] || 24;
+    colXml += '<col min="' + (i + 1) + '" max="' + (i + 1) + '" width="' + w + '" customWidth="1"/>';
+  }
+  colXml += '</cols>';
+
   var xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n';
   xml += '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">';
   xml += '<sheetViews><sheetView tabSelected="1" workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>';
+  xml += colXml;
   xml += '<sheetData>';
 
   for (var r = 0; r < rows.length; r++) {
@@ -94,7 +110,11 @@ function buildSheetXml(rows) {
       if (val == null) val = "";
       val = String(val);
       var style = r === 0 ? ' s="1"' : '';
-      xml += '<c r="' + ref + '" t="inlineStr"' + style + '><is><t>' + escapeXml(val) + '</t></is></c>';
+      if (val.startsWith("=")) {
+        xml += '<c r="' + ref + '"' + style + '><f>' + escapeXml(val.slice(1)) + '</f></c>';
+      } else {
+        xml += '<c r="' + ref + '" t="inlineStr"' + style + '><is><t>' + escapeXml(val) + '</t></is></c>';
+      }
     }
     xml += '</row>';
   }
