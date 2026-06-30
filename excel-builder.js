@@ -111,7 +111,16 @@ function buildSheetXml(rows) {
       val = String(val);
       var style = r === 0 ? ' s="1"' : '';
       if (val.startsWith("=")) {
-        xml += '<c r="' + ref + '"' + style + '><f>' + escapeXml(val.slice(1)) + '</f></c>';
+        // Extract the label/friendly name from the HYPERLINK formula to use as the cached value
+        // e.g. =HYPERLINK("url", "friendly name")
+        let cachedVal = "";
+        const match = val.match(/,\s*"([^"]*)"\s*\)$/);
+        if (match) {
+          cachedVal = match[1];
+        }
+        const formulaXml = escapeXmlText(val.slice(1));
+        const valXml = cachedVal ? `<v>${escapeXml(cachedVal)}</v>` : "";
+        xml += '<c r="' + ref + '" t="str"' + style + '><f>' + formulaXml + '</f>' + valXml + '</c>';
       } else {
         xml += '<c r="' + ref + '" t="inlineStr"' + style + '><is><t>' + escapeXml(val) + '</t></is></c>';
       }
@@ -143,6 +152,14 @@ function escapeXml(s) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&apos;");
+}
+
+function escapeXmlText(s) {
+  return String(s)
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
 function xmlBytes(str) {
