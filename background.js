@@ -221,17 +221,37 @@ async function scrapeChannelInfo(apiKey, channelUrl) {
 async function scrapeSearchResults(apiKey, query, maxResults) {
   sendProgress(0, "Searching YouTube...");
 
-  const limit = Math.min(maxResults, 50); // API max per page
-  const data = await ytApiGet(apiKey, "search", {
-    part: "snippet",
-    q: query,
-    type: "channel",
-    maxResults: limit,
-  });
+  const channelIds = [];
+  let pageToken = null;
+  let fetched = 0;
 
-  const channelIds = (data.items || [])
-    .filter(item => item.id?.channelId)
-    .map(item => item.id.channelId);
+  while (fetched < maxResults) {
+    if (stopRequested) break;
+
+    const percent = Math.round((fetched / maxResults) * 40);
+    sendProgress(percent, `Searching channels... (${fetched}/${maxResults})`);
+
+    const limit = Math.min(maxResults - fetched, 50);
+    const params = {
+      part: "snippet",
+      q: query,
+      type: "channel",
+      maxResults: limit,
+    };
+    if (pageToken) params.pageToken = pageToken;
+
+    const data = await ytApiGet(apiKey, "search", params);
+    
+    const pageChannelIds = (data.items || [])
+      .filter(item => item.id?.channelId)
+      .map(item => item.id.channelId);
+
+    channelIds.push(...pageChannelIds);
+    fetched += (data.items || []).length;
+
+    pageToken = data.nextPageToken;
+    if (!pageToken || (data.items || []).length === 0) break;
+  }
 
   if (channelIds.length === 0) {
     sendProgress(100, "No channels found.");
